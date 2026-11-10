@@ -26,10 +26,15 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/health")
+def health():
+    return jsonify({"status": "ok"})
+
+
 @app.route("/api/generate", methods=["POST"])
 def generate():
     if not OPENROUTER_API_KEY:
-        return jsonify({"error": "Missing OPENROUTER_API_KEY. Add it to your .env file."}), 500
+        return jsonify({"error": "Missing OPENROUTER_API_KEY. Add it in your environment variables."}), 500
 
     data = request.get_json(silent=True) or {}
     text = (data.get("text") or "").strip()
@@ -77,10 +82,11 @@ def generate():
             msg = "API request failed."
         return jsonify({"error": msg}), 502
     except requests.exceptions.RequestException:
-        return jsonify({"error": "Could not reach OpenRouter. Check your internet connection."}), 502
+        return jsonify({"error": "Could not reach OpenRouter. Please try again."}), 502
     except (KeyError, IndexError, ValueError):
         return jsonify({"error": "Unexpected response from the AI service."}), 502
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=os.getenv("FLASK_DEBUG") == "1")
