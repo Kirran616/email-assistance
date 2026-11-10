@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Email Assistant</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>✉️ AI Email Assistant</h1>
+      <p>Generate replies, rewrite messages, summarize emails and draft follow-ups.</p>
+    </header>
+
+    <section class="card">
+      <label for="task">What do you want to do?</label>
+      <div class="row">
+        <select id="task">
+          <option value="reply">Generate a professional reply</option>
+          <option value="rewrite">Rewrite an informal message</option>
+          <option value="summarize">Summarize a long email</option>
+          <option value="followup">Draft a follow-up</option>
+        </select>
+        <select id="tone">
+          <option value="professional">Professional</option>
+          <option value="friendly">Friendly</option>
+          <option value="formal">Formal</option>
+          <option value="concise">Concise</option>
+        </select>
+      </div>
+
+      <label for="input">Paste your email or message</label>
+      <textarea id="input" rows="9" placeholder="Paste the email or write your rough message here..."></textarea>
+
+      <button id="generate">Generate</button>
+    </section>
+
+    <section class="card" id="output-card" hidden>
+      <div class="output-head">
+        <h2>Result</h2>
+        <button id="copy" class="secondary">Copy</button>
+      </div>
+      <pre id="output"></pre>
+    </section>
+
+    <p id="error" class="error" hidden></p>
+  </main>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
